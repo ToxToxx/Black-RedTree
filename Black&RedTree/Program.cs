@@ -169,42 +169,49 @@
         // Вспомогательный метод для удаления узла
         private void DeleteFixup(Node x)
         {
-            while (x != root && (x == null || x.Color == Color.Black))
+            while (x != null && x != root && (x == null || x.Color == Color.Black))
             {
-                if (x == x.Parent.Left)
+                if (x == x.Parent?.Left)
                 {
-                    Node w = x.Parent.Right;
+                    Node w = x.Parent?.Right;
 
-                    if (w.Color == Color.Red)
+                    if (w != null && w.Color == Color.Red)
                     {
                         w.Color = Color.Black;
                         x.Parent.Color = Color.Red;
                         RotateLeft(x.Parent);
-                        w = x.Parent.Right;
+                        w = x.Parent?.Right;
                     }
 
-                    if ((w.Left == null || w.Left.Color == Color.Black) &&
-                        (w.Right == null || w.Right.Color == Color.Black))
+                    if ((w?.Left == null || w.Left.Color == Color.Black) &&
+                        (w?.Right == null || w.Right.Color == Color.Black))
                     {
-                        w.Color = Color.Red;
+                        if (w != null)
+                            w.Color = Color.Red;
+
                         x = x.Parent;
                     }
                     else
                     {
-                        if (w.Right == null || w.Right.Color == Color.Black)
+                        if (w?.Right == null || w.Right.Color == Color.Black)
                         {
-                            if (w.Left != null)
+                            if (w?.Left != null)
                                 w.Left.Color = Color.Black;
 
-                            w.Color = Color.Red;
+                            if (w != null)
+                                w.Color = Color.Red;
+
                             RotateRight(w);
-                            w = x.Parent.Right;
+                            w = x.Parent?.Right;
                         }
 
-                        w.Color = x.Parent.Color;
-                        x.Parent.Color = Color.Black;
+                        if (w != null)
+                            w.Color = (Color)(x.Parent?.Color);
 
-                        if (w.Right != null)
+                        if (x.Parent != null)
+                            x.Parent.Color = Color.Black;
+
+                        if (w?.Right != null)
                             w.Right.Color = Color.Black;
 
                         RotateLeft(x.Parent);
@@ -213,38 +220,45 @@
                 }
                 else
                 {
-                    Node w = x.Parent.Left;
+                    Node w = x.Parent?.Left;
 
-                    if (w.Color == Color.Red)
+                    if (w != null && w.Color == Color.Red)
                     {
                         w.Color = Color.Black;
                         x.Parent.Color = Color.Red;
                         RotateRight(x.Parent);
-                        w = x.Parent.Left;
+                        w = x.Parent?.Left;
                     }
 
-                    if ((w.Right == null || w.Right.Color == Color.Black) &&
-                        (w.Left == null || w.Left.Color == Color.Black))
+                    if ((w?.Right == null || w.Right.Color == Color.Black) &&
+                        (w?.Left == null || w.Left.Color == Color.Black))
                     {
-                        w.Color = Color.Red;
+                        if (w != null)
+                            w.Color = Color.Red;
+
                         x = x.Parent;
                     }
                     else
                     {
-                        if (w.Left == null || w.Left.Color == Color.Black)
+                        if (w?.Left == null || w.Left.Color == Color.Black)
                         {
-                            if (w.Right != null)
+                            if (w?.Right != null)
                                 w.Right.Color = Color.Black;
 
-                            w.Color = Color.Red;
+                            if (w != null)
+                                w.Color = Color.Red;
+
                             RotateLeft(w);
-                            w = x.Parent.Left;
+                            w = x.Parent?.Left;
                         }
 
-                        w.Color = x.Parent.Color;
-                        x.Parent.Color = Color.Black;
+                        if (w != null)
+                            w.Color = (Color)(x.Parent?.Color);
 
-                        if (w.Left != null)
+                        if (x.Parent != null)
+                            x.Parent.Color = Color.Black;
+
+                        if (w?.Left != null)
                             w.Left.Color = Color.Black;
 
                         RotateRight(x.Parent);
@@ -399,13 +413,13 @@
             Console.WriteLine("Дерево после вставки узлов:");
             tree.PrintInOrder();
 
-            tree.Delete(15);
+            tree.Delete(30);
 
-            Console.WriteLine("Дерево после удаления узла со значением 15:");
+            Console.WriteLine("Дерево после удаления узла:");
             tree.PrintInOrder();
 
             Console.WriteLine("Отрисованное дерево после вставки узла: ");
-            tree.Insert(25);
+            tree.Insert(21);
             tree.DrawTree();
         }
     }
